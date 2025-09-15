@@ -1,0 +1,1 @@
+- [x] Edit app/Actions/Fortify/UpdateUserProfileInformation.php to change the photo update condition to only update when an UploadedFile is provided.
