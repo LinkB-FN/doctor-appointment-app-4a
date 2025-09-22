@@ -59,3 +59,7 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+
+Para el nuevo layout, se separo en partes y se instalo flowbite, se cambio el logo, y se integro la edicion de perfil dentro del screen, mentiendolo dentro del admin
