@@ -9,7 +9,7 @@
                     </svg>
                 </button>
                 <a href="/" class="flex ms-2 md:me-24">
-                <img src="images/Fortnite_F_lettermark_logo.png" class="h-8 me-3" alt="Fortnite Logo" />
+                <img src="{{ asset('images/Fortnite_F_lettermark_logo.png') }}" class="h-8 me-3" alt="Fortnite Logo" />
                 <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">Fort health</span>
                 </a>
             </div>
