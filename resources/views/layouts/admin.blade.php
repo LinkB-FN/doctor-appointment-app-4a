@@ -1,6 +1,7 @@
 @props([
     'title' => config('app.name', 'Laravel'),
     'breadcrumbs' => [],
+    'action' => null,
     ])
 
 <!DOCTYPE html>
@@ -38,6 +39,9 @@
             <div class="container mx-auto">
                 @include('layouts.includes.admin.breadcrumb')
             </div>
+            @if($action)
+                {{ $action }}
+            @endif
             {{ $slot }}
         </div>
         @stack('modals')
