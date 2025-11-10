@@ -21,6 +21,9 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         <script src="https://kit.fontawesome.com/e9e74fca35.js" crossorigin="anonymous"></script>
 
+        <!-- Sweet Alert 2-->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
         {{-- WireUI --}}
         <wireui:scripts />
         
@@ -36,17 +39,53 @@
         <div class="p-4 sm:ml-64">
             <!-- Margin top 14px -->
             <div class="mt-14 flex items-center justify-between w-full" ></div>
-            <div class="container mx-auto">
+            <div class="container mx-auto flex justify-between items-center">
                 @include('layouts.includes.admin.breadcrumb')
+                @if($action)
+                    {{ $action }}
+                @endif
             </div>
-            @if($action)
-                {{ $action }}
-            @endif
             {{ $slot }}
         </div>
         @stack('modals')
 
         @livewireScripts
         <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+
+        {{-- Mostrar Sweet Alert --}}
+        @if (session('swal'))
+            <script>
+                Swal.fire(@json(session('swal')));
+            </script>
+        @endif
+        <script>
+            const forms = document.querySelectorAll('.delete-form');
+            forms.forEach(form => {
+                form.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    
+                    try {
+                        Swal.fire({
+                            title: 'Estas seguro?',
+                            text: "No podras revertir esto!",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Si, eliminar!'
+                            cancelButtonText: 'Cancelar'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                form.submit();
+                                
+                            }
+                        })
+                    } catch (error) {
+                        console.error('Error submitting form:', error);
+                    }
+                });
+            });
+            
+            </script>
     </body>
 </html>

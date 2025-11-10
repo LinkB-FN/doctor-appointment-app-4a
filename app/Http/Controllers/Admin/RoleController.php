@@ -21,7 +21,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.roles.create');
     }
 
     /**
@@ -29,27 +29,23 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
-          //Validar que se cree bien
         $request->validate([
-            'name' => 'required|unique:roles,name'
+            'name' => 'required|unique:roles,name',
         ]);
 
-        //Si para validación, crear el rol
         Role::create([
-            'name' => $request->name
+            'name' => $request->name,
+            'guard_name' => 'web'
         ]);
 
-        //Variable de un solo uso para alerta
-        session()->flash('swal', 
+        session()->flash('swal',
         [
             'icon' => 'success',
             'title' => 'Rol creado correctamente',
             'text' => 'El rol se ha creado exitosamente.'
         ]);
 
-        //Redireccionar a la tabla principal
-        return redirect()->route('admin.roles.index')->with('success', 'Role created successfully');
+        return redirect()->route('admin.roles.index');
     }
 
     /**
@@ -63,10 +59,21 @@ class RoleController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Role $role)
     {
-        $role = Role::findOrFail($id);
-        return view('admin.roles.edit', compact('role'));
+       
+
+        if($role->id<=4){
+
+            session()->flash('swal',
+            [
+                'icon' => 'error',
+                'title' => 'No se puede eliminar el rol',
+                'text' => 'No se puede eliminar el rol por ser un rol por defecto.'
+            ]);
+        return redirect()->route('admin.roles.index');
+
+        }
     }
 
     /**
@@ -75,20 +82,50 @@ class RoleController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:roles,name,' . $id,
         ]);
 
         $role = Role::findOrFail($id);
         $role->update($request->only('name'));
 
-        return redirect()->route('admin.roles.index')->with('success', 'Rol actualizado correctamente.');
+        session()->flash('swal',
+        [
+            'icon' => 'success',
+            'title' => 'Rol actualizado correctamente',
+            'text' => 'El rol se ha actualizado exitosamente.'
+        ]);
+
+        return redirect()->route('admin.roles.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Role $role)
     {
-        //
+        
+        if($role->id<=4){
+
+            session()->flash('swal',
+            [
+                'icon' => 'error',
+                'title' => 'No se puede eliminar el rol',
+                'text' => 'No se puede eliminar el rol por ser un rol por defecto.'
+            ]);
+        }
+
+            //borrar
+        $role->delete();
+
+
+        //alerta
+        session()->flash('swal',
+        [
+            'icon' => 'success',
+            'title' => 'Rol eliminado correctamente',
+            'text' => 'El rol se ha eliminado exitosamente.'
+        ]);
+
+        return redirect()->route('admin.roles.index');
     }
 }

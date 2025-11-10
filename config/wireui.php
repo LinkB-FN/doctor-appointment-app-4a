@@ -122,5 +122,11 @@ return [
             'class' => Components\Button\Mini::class,
             'alias' => 'wire-button',
         ],
+        'card' => [
+            'alias' => 'wire-card',
+        ],
+        'input' => [
+            'alias' => 'wire-input',
+        ],
     ]),
 ];
