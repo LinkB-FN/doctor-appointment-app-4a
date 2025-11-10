@@ -30,6 +30,26 @@ class RoleController extends Controller
     public function store(Request $request)
     {
         //
+          //Validar que se cree bien
+        $request->validate([
+            'name' => 'required|unique:roles,name'
+        ]);
+
+        //Si para validación, crear el rol
+        Role::create([
+            'name' => $request->name
+        ]);
+
+        //Variable de un solo uso para alerta
+        session()->flash('swal', 
+        [
+            'icon' => 'success',
+            'title' => 'Rol creado correctamente',
+            'text' => 'El rol se ha creado exitosamente.'
+        ]);
+
+        //Redireccionar a la tabla principal
+        return redirect()->route('admin.roles.index')->with('success', 'Role created successfully');
     }
 
     /**
