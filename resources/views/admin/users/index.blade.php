@@ -1,19 +1,17 @@
-<x-admin-layout title="Roles | Simify" :breadcrumbs="[
+<x-admin-layout title="Usuarios | Simify" :breadcrumbs="[
         [
           'name' => 'Dashboard', 
           'href' => route('admin.dashboard')
         ],
         [
-          'name' => 'Roles'
+          'name' => 'Usuarios'
         ],
     ]">
         <x-slot name="action">
-            <x-button href="{{ route('admin.roles.create') }}" primary>
+            <x-button>
                 <i class="fa-solid fa-plus"></i>
                 Nuevo
             </x-button>
         </x-slot>
-
-        @livewire('admin.datatables.role-table')
 
 </x-admin-layout>

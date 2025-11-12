@@ -12,16 +12,16 @@
         ],
     ]">
         
-        <x-wire-card>
+        <x-card>
             <form action="{{ route('admin.roles.store') }}" method="POST">
                 @csrf
-              <x-wire-input label="Nombre" name="name" placeholder="Ingrese el nombre del rol" value="{{ old('name') }}">
+              <x-input label="Nombre" name="name" placeholder="Ingrese el nombre del rol" value="{{ old('name') }}">
                   
-              </x-wire-input>
+              </x-input>
               <div class="flex justify-end mt-4">
-                <x-wire-button type="submit" blue>Guardar</x-wire-button>
+                <x-button type="submit" primary>Guardar</x-button>
               </div>
             </form>
-        </x-wire-card>
+        </x-card>
 
 </x-admin-layout>

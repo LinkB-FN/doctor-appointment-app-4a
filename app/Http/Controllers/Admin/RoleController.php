@@ -61,19 +61,17 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
-       
-
-        if($role->id<=4){
-
+        if($role->id <= 4){
             session()->flash('swal',
             [
                 'icon' => 'error',
-                'title' => 'No se puede eliminar el rol',
-                'text' => 'No se puede eliminar el rol por ser un rol por defecto.'
+                'title' => 'No se puede editar el rol',
+                'text' => 'No se puede editar el rol por ser un rol por defecto.'
             ]);
-        return redirect()->route('admin.roles.index');
-
+            return redirect()->route('admin.roles.index');
         }
+
+        return view('admin.roles.edit', compact('role'));
     }
 
     /**
@@ -86,6 +84,18 @@ class RoleController extends Controller
         ]);
 
         $role = Role::findOrFail($id);
+
+        // Prevent redundant updates if name hasn't changed
+        if ($role->name === $request->name) {
+            session()->flash('swal',
+            [
+                'icon' => 'info',
+                'title' => 'Sin cambios',
+                'text' => 'El nombre del rol no ha cambiado.'
+            ]);
+            return redirect()->route('admin.roles.index');
+        }
+
         $role->update($request->only('name'));
 
         session()->flash('swal',
@@ -103,22 +113,18 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
-        
-        if($role->id<=4){
-
+        if($role->id <= 4){
             session()->flash('swal',
             [
                 'icon' => 'error',
                 'title' => 'No se puede eliminar el rol',
                 'text' => 'No se puede eliminar el rol por ser un rol por defecto.'
             ]);
+            return redirect()->route('admin.roles.index');
         }
 
-            //borrar
         $role->delete();
 
-
-        //alerta
         session()->flash('swal',
         [
             'icon' => 'success',

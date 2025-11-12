@@ -114,19 +114,5 @@ return [
     |
      */
 
-    'components' => Config::defaultComponents([
-        'button' => [
-            'alias' => 'wire-button',
-        ],
-        'mini-button' => [
-            'class' => Components\Button\Mini::class,
-            'alias' => 'wire-button',
-        ],
-        'card' => [
-            'alias' => 'wire-card',
-        ],
-        'input' => [
-            'alias' => 'wire-input',
-        ],
-    ]),
+    'components' => Config::defaultComponents(),
 ];

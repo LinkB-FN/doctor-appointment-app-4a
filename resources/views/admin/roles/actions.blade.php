@@ -1,14 +1,15 @@
 <div class="flex items-center space-x-2">
-    <x-wire-button href="{{ route('admin.roles.edit', $role) }}" blue xs>
-        <i class="fa-solid fa-pen-to-square"></i>
-    </x-wire-button>
+    @if($role->id > 4)
+        <x-button href="{{ route('admin.roles.edit', $role) }}" primary xs>
+            <i class="fa-solid fa-pen-to-square"></i>
+        </x-button>
 
-    <form action="{{ route('admin.roles.destroy', $role) }}" method="POST" x-on:submit.prevent="Swal.fire({title: 'Estas seguro?', text: 'No podras revertir esto!', icon: 'warning', showCancelButton: true, confirmButtonColor: '#3085d6', cancelButtonColor: '#d33', confirmButtonText: 'Si, eliminar!', cancelButtonText: 'Cancelar'}).then((result) => { if (result.isConfirmed) { $el.submit(); } })">
-        @csrf
-        @method('DELETE')
-        <x-wire-button type="submit" red xs>
-            <i class="fa-solid fa-trash"></i>
-        </x-wire-button>
-    </form>
-
+        <form action="{{ route('admin.roles.destroy', $role) }}" method="POST" class="delete-form">
+            @csrf
+            @method('DELETE')
+            <x-button type="submit" negative xs>
+                <i class="fa-solid fa-trash"></i>
+            </x-button>
+        </form>
+    @endif
 </div>
