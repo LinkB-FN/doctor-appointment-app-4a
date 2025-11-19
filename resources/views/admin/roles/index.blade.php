@@ -14,6 +14,6 @@
             </x-button>
         </x-slot>
 
-        @livewire('admin.datatables.role-table')
+        @livewire('admin.datatables.user-table')
 
 </x-admin-layout>
