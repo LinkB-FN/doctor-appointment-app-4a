@@ -64,13 +64,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        // No permitir que un usuario se edite a sí mismo
-        if (Auth::id() == $user->id) {
-            abort(403, 'No puedes editarte a ti mismo.');
-        }
-
-        $roles = Role::all();
-        return view('admin.users.edit', compact('user', 'roles'));
+        return view('admin.users.edit', compact('user'));
     }
 
     /**
@@ -93,8 +87,7 @@ class UserController extends Controller
 
         //Si el usuario quiere editar su contraseña, que lo guarde
         if ($request->filled('password')) {
-            $user->password = bcrypt($request['password']);
-            $user->save();
+            $data['password'] = Hash::make($request->password);
         }
 
         $user->roles()->sync($data['role_id']);
@@ -113,13 +106,15 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-
-        //No permitir que un usuario se elimine a sí mismo
-        if (Auth::id() == $user->id) {
-            abort(403, 'No puedes eliminarte a ti mismo.');
+        // Prevent deleting own account
+        if ($user->id === auth()->id()) {
+            session()->flash('swal', [
+                'icon' => 'error',
+                'title' => 'No se puede eliminar el usuario',
+                'text' => 'No puedes eliminar tu propia cuenta.'
+            ]);
+            return redirect()->route('admin.users.index');
         }
-
-        $user->roles()->detach();
 
         $user->delete();
 
