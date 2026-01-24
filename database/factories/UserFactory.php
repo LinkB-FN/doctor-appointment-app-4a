@@ -31,14 +31,14 @@ class UserFactory extends Factory
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
-            'id_number' => fake()->unique()->numerify('########'),
-            'phone' => fake()->phoneNumber(),
-            'address' => fake()->address(),
             'two_factor_secret' => null,
             'two_factor_recovery_codes' => null,
             'remember_token' => Str::random(10),
             'profile_photo_path' => null,
             'current_team_id' => null,
+            'id_number' => strtoupper(fake()->bothify('ID-#####')),
+            'phone' => fake()->numerify('9999999999'),
+            'address' => fake()->streetAddress(),
         ];
     }
 
