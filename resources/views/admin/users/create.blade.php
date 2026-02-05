@@ -32,6 +32,29 @@
                     <x-input label="Confirmar Contraseña" name="password_confirmation" type="password" placeholder="Confirme la contraseña" />
                 </div>
 
+                <div class="mb-4">
+                    <x-input label="Número de Identificación" name="id_number" placeholder="Ingrese el número de identificación" value="{{ old('id_number') }}" />
+                </div>
+
+                <div class="mb-4">
+                    <x-input label="Teléfono" name="phone" placeholder="Ingrese el teléfono" value="{{ old('phone') }}" />
+                </div>
+
+                <div class="mb-4">
+                    <x-input label="Dirección" name="address" placeholder="Ingrese la dirección" value="{{ old('address') }}" />
+                </div>
+
+                <div class="mb-4">
+                    <x-select 
+                        label="Rol" 
+                        name="role_id" 
+                        placeholder="Seleccione un rol"
+                        :options="$roles"
+                        option-label="name"
+                        option-value="id"
+                    />
+                </div>
+
                 <div class="flex justify-end mt-4">
                     <x-button type="submit" primary>Guardar</x-button>
                 </div>

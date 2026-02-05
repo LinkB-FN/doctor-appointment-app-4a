@@ -28,6 +28,10 @@ class UserTable extends DataTableComponent
                 ->sortable(),
             Column::make("Updated at", "updated_at")
                 ->sortable(),
+            Column::make("Actions")
+                ->label(
+                    fn($row, Column $column) => view('admin.users.actions', ['user' => $row])
+                ),
         ];
     }
 }

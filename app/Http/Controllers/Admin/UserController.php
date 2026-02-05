@@ -45,18 +45,25 @@ class UserController extends Controller
             'role_id' => 'required|exists:roles,id'
         ]);
 
+        // Hash the password before creating the user
+        $data['password'] = Hash::make($data['password']);
         
         $user = User::create($data); 
 
         $user->roles()->attach($data['role_id']);
-
-        
+         
+      
         session()->flash('swal', [
             'icon'  => 'success',
             'title' => 'Usuario creado correctamente',
             'text'  => 'El usuario ha sido registrado exitosamente'
         ]);
 
+        if ($user::role('Paciente')) 
+            {
+                $patient = $user->patient()->create([]);
+                return redirect()->route('admin.patients.edit', $patient);
+             }
         return redirect()->route('admin.users.index')->with('success', 'Usuario creado exitosamente.');
     }
 
@@ -65,7 +72,8 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('admin.users.edit', compact('user'));
+        $roles = Role::all();
+        return view('admin.users.edit', compact('user', 'roles'));
     }
 
     /**
