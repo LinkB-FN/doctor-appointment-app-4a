@@ -49,7 +49,27 @@ class PatientController extends Controller
     public function edit(Patient $patient)
     {
         $bloodTypes = BloodType::all();
-        return view('admin.patients.edit', compact('patient', 'bloodTypes'));
+
+        // Define which fields belong to each tab to detect validation errors
+        $errorGroups = [
+            'antecedentes'        => ['allergies', 'chronic_conditions', 'surgical_history', 'family_history'],
+            'informacion-general' => ['blood_type_id', 'observations'],
+            'contacto-emergencia' => ['emergency_contact_name', 'emergency_contact_phone', 'emergency_contact_relationship'],
+        ];
+
+        // Default tab
+        $initialTab = 'datos-personales';
+
+        // If there are validation errors, open the tab that contains them
+        $errors = session('errors') ?? new \Illuminate\Support\MessageBag();
+        foreach ($errorGroups as $tabName => $fields) {
+            if ($errors->hasAny($fields)) {
+                $initialTab = $tabName;
+                break;
+            }
+        }
+
+        return view('admin.patients.edit', compact('patient', 'bloodTypes', 'initialTab', 'errorGroups'));
     }
 
     /**
