@@ -105,6 +105,14 @@ class PatientController extends Controller
      */
     public function destroy(Patient $patient)
     {
-        //
+        $patient->delete();
+
+        session()->flash('swal', [
+            'icon'  => 'success',
+            'title' => 'Paciente eliminado',
+            'text'  => 'El paciente ha sido eliminado exitosamente',
+        ]);
+
+        return redirect()->route('admin.patients.index');
     }
 }

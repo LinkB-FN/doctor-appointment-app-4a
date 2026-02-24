@@ -77,4 +77,12 @@ class User extends Authenticatable
     {
         return $this->hasOne(Patient::class);
     }
+
+    /**
+     * Get the doctor record associated with the user.
+     */
+    public function doctor()
+    {
+        return $this->hasOne(Doctor::class);
+    }
 }
