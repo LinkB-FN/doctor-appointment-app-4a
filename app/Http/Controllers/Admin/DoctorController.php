@@ -45,7 +45,7 @@ class DoctorController extends Controller
         $data = $request->validate([
             'user_id'         => 'required|exists:users,id|unique:doctors,user_id',
             'specialty_id'    => 'nullable|exists:specialties,id',
-            'medical_license' => 'nullable|string|max:100',
+            'medical_license' => 'nullable|string|max:14',
             'biography'       => 'nullable|string|max:1000',
         ]);
 
@@ -81,7 +81,7 @@ class DoctorController extends Controller
     {
         $data = $request->validate([
             'specialty_id'    => 'nullable|exists:specialties,id',
-            'medical_license' => 'nullable|string|max:100',
+            'medical_license' => 'nullable|string|max:14',
             'biography'       => 'nullable|string|max:1000',
         ]);
 

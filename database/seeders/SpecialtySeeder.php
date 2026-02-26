@@ -23,6 +23,7 @@ class SpecialtySeeder extends Seeder
             'Psiquiatría',
             'Oncología',
             'Medicina General',
+            'Veterinario',
         ];
 
         foreach ($specialties as $specialty) {

@@ -24,18 +24,12 @@
                          class="h-20 w-20 rounded-full object-cover object-center">
                     <div>
                         <p class="text-2xl font-bold text-gray-900">{{ $doctor->user->name }}</p>
-                        <p class="text-sm text-gray-500 mt-1">
-                            <span class="font-semibold text-gray-600">Especialidad:</span>
-                            {{ $doctor->specialty->name ?? 'N/A' }}
-                        </p>
+                        
                         <p class="text-sm text-gray-500 mt-0.5">
                             <span class="font-semibold text-gray-600">Cédula Profesional:</span>
                             {{ $doctor->medical_license ?: 'N/A' }}
                         </p>
-                        <p class="text-sm text-gray-500 mt-0.5">
-                            <span class="font-semibold text-gray-600">Biografía:</span>
-                            {{ $doctor->biography ? \Illuminate\Support\Str::limit($doctor->biography, 60) : 'N/A' }}
-                        </p>
+                        
                     </div>
                 </div>
                 <div class="flex space-x-3 mt-6 lg:mt-0">
