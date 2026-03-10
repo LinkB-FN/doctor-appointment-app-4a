@@ -14,3 +14,6 @@ Route::resource('roles', RoleController::class);
 Route::resource('users', UserController::class);
 Route::resource('patients', PatientController::class);
 Route::resource('doctors', DoctorController::class)->except(['show']);
+Route::resource('appointments', \App\Http\Controllers\Admin\AppointmentController::class);
+
+Route::get('/schedules', \App\Livewire\Admin\ScheduleManager::class)->name('schedules.index');

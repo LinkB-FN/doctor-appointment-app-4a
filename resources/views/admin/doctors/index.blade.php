@@ -1,12 +1,12 @@
 <x-admin-layout title="Doctores | Simify" :breadcrumbs="[
-    [
-        'name' => 'Dashboard',
-        'href' => route('admin.dashboard'),
-    ],
-    [
-        'name' => 'Doctores',
-    ],
-]">
+        [
+            'name' => 'Dashboard',
+            'href' => route('admin.dashboard'),
+        ],
+        [
+            'name' => 'Doctores',
+        ],
+    ]">
 
     <div class="flex justify-end mb-4">
         <x-button href="{{ route('admin.doctors.create') }}" primary>
@@ -20,22 +20,28 @@
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             ID
                         </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Doctor
                         </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Especialidad
                         </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Cédula Profesional
                         </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Biografía
                         </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Acciones
                         </th>
                     </tr>
@@ -48,9 +54,8 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
-                                    <img src="{{ $doctor->user->profile_photo_url }}"
-                                         alt="{{ $doctor->user->name }}"
-                                         class="h-9 w-9 rounded-full object-cover object-center mr-3">
+                                    <img src="{{ $doctor->user->profile_photo_url }}" alt="{{ $doctor->user->name }}"
+                                        class="h-9 w-9 rounded-full object-cover object-center mr-3">
                                     <span class="text-sm font-medium text-gray-900">
                                         {{ $doctor->user->name }}
                                     </span>
@@ -67,10 +72,15 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                 <div class="flex items-center space-x-2">
+                                    <x-button href="{{ route('admin.schedules.index', ['doctor_id' => $doctor->id]) }}" teal
+                                        xs title="Gestionar Horarios">
+                                        <i class="fa-solid fa-clock"></i>
+                                    </x-button>
                                     <x-button href="{{ route('admin.doctors.edit', $doctor) }}" primary xs>
                                         <i class="fa-solid fa-pen-to-square"></i>
                                     </x-button>
-                                    <form action="{{ route('admin.doctors.destroy', $doctor) }}" method="POST" class="delete-form">
+                                    <form action="{{ route('admin.doctors.destroy', $doctor) }}" method="POST"
+                                        class="delete-form">
                                         @csrf
                                         @method('DELETE')
                                         <x-button type="submit" negative xs>
