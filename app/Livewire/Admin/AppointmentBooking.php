@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin;
 
+use App\Jobs\SendWhatsAppConfirmation;
 use App\Models\Appointment;
 use App\Models\Doctor;
 use App\Models\DoctorSchedule;
@@ -104,7 +105,7 @@ class AppointmentBooking extends Component
 
         $endTime = date('H:i:s', strtotime('+15 minutes', strtotime($this->time)));
 
-        Appointment::create([
+        $appointment = Appointment::create([
             'patient_id' => $this->patient_id,
             'doctor_id' => $this->selectedDoctorId,
             'date' => $this->date,
@@ -113,6 +114,9 @@ class AppointmentBooking extends Component
             'status' => 'Programado',
             'notes' => $this->notes,
         ]);
+
+        // Dispatch WhatsApp confirmation (queued, non-blocking)
+        SendWhatsAppConfirmation::dispatch($appointment);
 
         $this->dispatch('swal', [
             'icon' => 'success',

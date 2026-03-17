@@ -35,4 +35,21 @@ return [
         ],
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Twilio WhatsApp
+    |--------------------------------------------------------------------------
+    |
+    | Credentials for the Twilio API used to send WhatsApp messages.
+    | TWILIO_SID          — Account SID from https://console.twilio.com
+    | TWILIO_TOKEN        — Auth Token from https://console.twilio.com
+    | TWILIO_WHATSAPP_FROM — WhatsApp-enabled number (e.g. +14155238886 for sandbox)
+    |
+    */
+    'twilio' => [
+        'sid'            => env('TWILIO_SID'),
+        'token'          => env('TWILIO_TOKEN'),
+        'whatsapp_from'  => env('TWILIO_WHATSAPP_FROM'),
+    ],
+
 ];
