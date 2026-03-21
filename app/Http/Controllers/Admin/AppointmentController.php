@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\SendWhatsAppConfirmation;
 use App\Models\Appointment;
 use App\Models\Doctor;
 use App\Models\Patient;
@@ -34,7 +35,10 @@ class AppointmentController extends Controller
             'notes' => 'nullable|string',
         ]);
 
-        Appointment::create($data);
+        $appointment = Appointment::create($data);
+
+        // Dispatch WhatsApp confirmation (queued, non-blocking)
+        SendWhatsAppConfirmation::dispatch($appointment);
 
         session()->flash('swal', [
             'icon' => 'success',

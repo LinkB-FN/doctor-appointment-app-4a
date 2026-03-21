@@ -14,7 +14,16 @@ class Appointment extends Model
         'end_time',
         'status',
         'notes',
+        'reminder_sent_at',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'date'             => 'date',
+            'reminder_sent_at' => 'datetime',
+        ];
+    }
 
     public function patient()
     {
