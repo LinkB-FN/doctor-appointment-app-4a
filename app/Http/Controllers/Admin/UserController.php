@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
+use App\Services\WhatsAppService;
 
 class UserController extends Controller
 {
@@ -89,20 +90,21 @@ class UserController extends Controller
         // Validar los datos
         $data = $request->validate([
             'name' => 'required|string|min:3|max:20',
-            'email' => 'required|string|email|unique:users, email,' . $user->id,
-            'password' => 'required|string|min:8|confirmed',
-            'id_number' => 'required|string|min:5|max:20|regex:/^[A-Za-z0-9\-]+$/|unique:users, id_number,' . $user->id,
+            'email' => 'required|string|email|unique:users,email,' . $user->id,
+            'password' => 'nullable|string|min:8|confirmed',
+            'id_number' => 'required|string|min:5|max:20|regex:/^[A-Za-z0-9\-]+$/|unique:users,id_number,' . $user->id,
             'phone' => 'required|digits_between:7,15',
             'address' => 'required|string|min:3|max:255',
             'role_id' => 'required|exists:roles,id'
         ]);
 
-        $user->update($data);
-
-        //Si el usuario quiere editar su contraseña, que lo guarde
         if ($request->filled('password')) {
             $data['password'] = Hash::make($request->password);
+        } else {
+            unset($data['password']);
         }
+
+        $user->update($data);
 
         $user->roles()->sync($data['role_id']);
 
@@ -113,6 +115,44 @@ class UserController extends Controller
         ]);
         
         return redirect()->route('admin.users.edit', $user->id)->with('success', 'Usuario actualizado exitosamente.');
+    }
+
+    /**
+     * Enviar mensaje de prueba por WhatsApp (Twilio)
+     */
+    public function sendTestWhatsApp(User $user, WhatsAppService $whatsApp)
+    {
+        $phone = preg_replace('/\D+/', '', (string) ($user->phone ?? ''));
+
+        if (empty($phone)) {
+            session()->flash('swal', [
+                'icon'  => 'error',
+                'title' => 'Sin teléfono',
+                'text'  => 'El usuario no tiene un número de teléfono válido.'
+            ]);
+
+            return redirect()->route('admin.users.index');
+        }
+
+        $message = "Mensaje de prueba de WhatsApp para {$user->name}. Si recibes esto, Twilio está funcionando.";
+
+        $sent = $whatsApp->sendMessage($phone, $message);
+
+        if ($sent) {
+            session()->flash('swal', [
+                'icon'  => 'success',
+                'title' => 'Mensaje enviado',
+                'text'  => 'Se envió el mensaje de prueba por Twilio correctamente.'
+            ]);
+        } else {
+            session()->flash('swal', [
+                'icon'  => 'error',
+                'title' => 'Error al enviar',
+                'text'  => 'No se pudo enviar el mensaje de prueba por Twilio.'
+            ]);
+        }
+
+        return redirect()->route('admin.users.index');
     }
 
     /**

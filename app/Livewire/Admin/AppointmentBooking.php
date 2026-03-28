@@ -9,6 +9,7 @@ use App\Models\DoctorSchedule;
 use App\Models\Patient;
 use App\Models\Specialty;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class AppointmentBooking extends Component
@@ -116,7 +117,16 @@ class AppointmentBooking extends Component
         ]);
 
         // Dispatch WhatsApp confirmation (queued, non-blocking)
-        SendWhatsAppConfirmation::dispatch($appointment);
+        $whatsAppDispatch = SendWhatsAppConfirmation::dispatch($appointment)->afterCommit();
+
+        // Dispatch Email and PDF confirmation
+        $emailDispatch = \App\Jobs\SendAppointmentReceipts::dispatch($appointment)->afterCommit();
+
+        Log::info('AppointmentBooking: notification jobs dispatched.', [
+            'appointment_id' => $appointment->id,
+            'whatsapp_job' => $whatsAppDispatch ? get_class($whatsAppDispatch) : null,
+            'email_job' => $emailDispatch ? get_class($emailDispatch) : null,
+        ]);
 
         $this->dispatch('swal', [
             'icon' => 'success',

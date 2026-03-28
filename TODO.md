@@ -15,6 +15,14 @@
 - [x] 11. Actualizar `bootstrap/app.php` — registrar scheduler diario (08:00 AM)
 - [x] 12. Ejecutar migración — DONE ✓
 
+## Nuevo Plan: Diagnóstico y corrección de envío de WhatsApp + Email al crear cita
+
+- [ ] 1. Fortalecer logging y manejo de fallos en `app/Jobs/SendWhatsAppConfirmation.php`
+- [ ] 2. Fortalecer logging y manejo de fallos en `app/Jobs/SendAppointmentReceipts.php`
+- [ ] 3. Mejorar dispatch de jobs en `app/Livewire/Admin/AppointmentBooking.php` (after commit + trazabilidad)
+- [ ] 4. Crear comando de diagnóstico `doctor:notifications-check` en `app/Console/Commands`
+- [ ] 5. Ejecutar verificaciones operativas (worker, failed jobs, logs) y documentar checklist
+
 ## ⚙️ Configuración Pendiente (Manual)
 
 ### 1. Crear cuenta Twilio (GRATIS para pruebas)

@@ -12,6 +12,7 @@ Route::get('/', function () {
 
 Route::resource('roles', RoleController::class);
 Route::resource('users', UserController::class);
+Route::post('users/{user}/send-test-whatsapp', [UserController::class, 'sendTestWhatsApp'])->name('users.send-test-whatsapp');
 Route::resource('patients', PatientController::class);
 Route::resource('doctors', DoctorController::class)->except(['show']);
 Route::resource('appointments', \App\Http\Controllers\Admin\AppointmentController::class);
